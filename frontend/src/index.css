@@ -1,1 +1,13 @@
 @import "tailwindcss";
+@font-face {
+  font-family: "Anonymous Pro";
+  src: url("/font/AnonymousPro-Regular.ttf") format("truetype"); /* Adjust path and format */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --color-left: #4859f3;
+  --color-mid: #a24ae7;
+  --color-right: #f66a4b;
+}
