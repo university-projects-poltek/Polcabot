@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const User = require("../models/usermodel");
+const { User } = require("../models"); // Import dari models/index.js
 
 // REGISTER
 exports.register = async (req, res) => {
@@ -15,20 +16,19 @@ exports.register = async (req, res) => {
   }
 
   try {
-    const existingUsername = await User.findUserByUsername(username);
-    if (existingUsername.length > 0) {
+    const existingUsername = await User.findOne({ where: { username } });
+    if (existingUsername) {
       return res.status(400).json({ message: "Username sudah digunakan" });
     }
 
-    const existingEmail = await User.findUserByEmail(email);
-    if (existingEmail.length > 0) {
+    const existingEmail = await User.findOne({ where: { email } });
+    if (existingEmail) {
       return res.status(400).json({ message: "Email sudah digunakan" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = { name, email, username, password: hashedPassword };
 
-    await User.createUser(newUser);
+    await User.create({ name, email, username, password: hashedPassword });
 
     res.status(201).json({ message: "Registrasi berhasil" });
   } catch (err) {
@@ -46,12 +46,10 @@ exports.login = async (req, res) => {
   }
 
   try {
-    const result = await User.findUserByUsername(username);
-    if (result.length === 0) {
+    const user = await User.findOne({ where: { username } });
+    if (!user) {
       return res.status(404).json({ message: "User tidak ditemukan" });
     }
-
-    const user = result[0];
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
