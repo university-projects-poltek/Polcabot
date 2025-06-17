@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../../assets/logo-v1.png";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
@@ -22,10 +23,16 @@ export const Login = () => {
       const data = await res.json();
 
       if (res.ok) {
+        console.log("Role user yang login:", data.user.role); // ← Tambahkan ini
         alert("Login berhasil!");
         localStorage.setItem("token", data.token);
-        // arahkan ke halaman dashboard atau beranda
-        navigate("/dashboard");
+        localStorage.setItem("role", data.user.role); // simpan role
+        // Arahkan ke halaman sesuai role
+        if (data.user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate(data.redirect);
+        }
       } else {
         alert(data.message || "Login gagal");
       }
@@ -52,7 +59,7 @@ export const Login = () => {
             placeholder="Masukkan nama pengguna"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className=" w-full px-4 py-2 rounded-2xl bg-[#2D2D34] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 rounded-2xl bg-[#2D2D34] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
             style={{ fontFamily: "Anonymous Pro" }}
           />
           <input
@@ -60,7 +67,7 @@ export const Login = () => {
             placeholder="Masukkan kata sandi"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-2xl bg-[#2D2D34] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-roboto"
+            className="w-full px-4 py-2 rounded-2xl bg-[#2D2D34] text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
             style={{ fontFamily: "Anonymous Pro" }}
           />
           <button

@@ -22,6 +22,7 @@ export const Register = () => {
 
     const { name, email, username, password, confirmPassword } = form;
 
+    // Validasi awal
     if (!name || !email || !username || !password || !confirmPassword) {
       return alert("Semua field wajib diisi");
     }
@@ -32,10 +33,21 @@ export const Register = () => {
 
     try {
       const response = await axios.post("http://localhost:3001/api/auth/register", form);
-      alert(response.data.message);
+      alert(response.data.message || "Registrasi berhasil!");
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Registrasi gagal");
+      if (error.response) {
+        const { message, errors } = error.response.data;
+
+        let fullMessage = message || "Registrasi gagal";
+        if (errors && typeof errors === "object") {
+          fullMessage = Object.values(errors).join("\n");
+        }
+
+        alert(fullMessage);
+      } else {
+        alert("Terjadi kesalahan jaringan atau server");
+      }
     }
   };
 
@@ -52,51 +64,24 @@ export const Register = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Masukkan nama lengkap"
-            className="w-full px-4 py-2 rounded-2xl bg-[#2E2E38] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            style={{ fontFamily: "Anonymous Pro" }}
-          />
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Masukkan nama email"
-            className="w-full px-4 py-2 rounded-2xl bg-[#2E2E38] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            style={{ fontFamily: "Anonymous Pro" }}
-          />
-          <input
-            type="text"
-            name="username"
-            value={form.username}
-            onChange={handleChange}
-            placeholder="Masukkan nama pengguna"
-            className="w-full px-4 py-2 rounded-2xl bg-[#2E2E38] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            style={{ fontFamily: "Anonymous Pro" }}
-          />
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Masukkan kata sandi"
-            className="w-full px-4 py-2 rounded-2xl bg-[#2E2E38] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            style={{ fontFamily: "Anonymous Pro" }}
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            placeholder="Masukkan kata konfirmasi sandi"
-            className="w-full px-4 py-2 rounded-2xl bg-[#2E2E38] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            style={{ fontFamily: "Anonymous Pro" }}
-          />
+          {[
+            { name: "name", placeholder: "Masukkan nama lengkap" },
+            { name: "email", type: "email", placeholder: "Masukkan email" },
+            { name: "username", placeholder: "Masukkan nama pengguna" },
+            { name: "password", type: "password", placeholder: "Masukkan kata sandi" },
+            { name: "confirmPassword", type: "password", placeholder: "Masukkan konfirmasi sandi" },
+          ].map(({ name, type = "text", placeholder }) => (
+            <input
+              key={name}
+              type={type}
+              name={name}
+              value={form[name]}
+              onChange={handleChange}
+              placeholder={placeholder}
+              className="w-full px-4 py-2 rounded-2xl bg-[#2E2E38] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              style={{ fontFamily: "Anonymous Pro" }}
+            />
+          ))}
 
           <button
             type="submit"
