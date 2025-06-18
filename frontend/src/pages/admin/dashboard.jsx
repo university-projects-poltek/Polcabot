@@ -1,20 +1,13 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// src/pages/admin/dashboard.jsx
+import React from "react";
 
-export default function AdminDashboard() {
-  const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  useEffect(() => {
-    if (!user || user.role !== "admin") {
-      navigate("/login");
-    }
-  }, [navigate, user]);
-
+const AdminDashboard = () => {
   return (
-    <div className="dashboard">
-      <h1>Welcome Admin, {user?.name}</h1>
-      {/* Admin specific content */}
+    <div className="p-10">
+      <h1 className="text-3xl font-bold">Selamat Datang, Admin!</h1>
+      <p className="mt-2 text-lg">Anda berhasil login sebagai admin.</p>
     </div>
   );
-}
+};
+
+export default AdminDashboard;
