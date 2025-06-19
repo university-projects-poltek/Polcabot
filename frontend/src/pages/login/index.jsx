@@ -27,6 +27,7 @@ export const Login = () => {
         alert("Login berhasil!");
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.user.role); // simpan role
+        localStorage.setItem("name", data.user.name); //
         // Arahkan ke halaman sesuai role
         if (data.user.role === "admin") {
           navigate("/admin/dashboard");

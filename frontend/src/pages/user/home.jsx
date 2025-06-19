@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const UserDashboard = () => {
+const UserHome = () => {
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("name");
+    if (storedName) {
+      setName(storedName);
+    }
+  }, []);
+
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold">Selamat Datang, User!</h1>
-      <p className="mt-2 text-lg">Anda berhasil login sebagai user.</p>
+    <div>
+      <h1>
+        <strong>Selamat Datang, {name}!</strong>
+      </h1>
+      <p>Anda berhasil login sebagai user.</p>
     </div>
   );
 };
 
-export default UserDashboard;
+export default UserHome;
