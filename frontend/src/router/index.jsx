@@ -1,8 +1,11 @@
 import { createBrowserRouter } from "react-router";
-import { Home } from "../pages/home";
-import { Login } from "../pages/login";
+
 import AdminDashboard from "../pages/admin/dashboard";
 import UserHome from "../pages/user/home";
+
+import { ChatRoomPage } from "../pages/chatroom/chatroompage";
+import { Home } from "../pages/home";
+import { Login } from "../pages/login";
 import { Register } from "../pages/register";
 
 const Router = createBrowserRouter([

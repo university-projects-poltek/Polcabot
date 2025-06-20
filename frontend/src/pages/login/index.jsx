@@ -32,7 +32,7 @@ export const Login = () => {
         if (data.user.role === "admin") {
           navigate("/admin/dashboard");
         } else {
-          navigate(data.redirect);
+          navigate("/chatroom");
         }
       } else {
         alert(data.message || "Login gagal");
@@ -51,7 +51,10 @@ export const Login = () => {
             <img src={Logo} alt="PolCaBot Logo" />
           </div>
         </div>
-        <h1 className="text-white text-3xl font-extrabold" style={{ fontFamily: "Poppins" }}>
+        <h1
+          className="text-white text-3xl font-extrabold"
+          style={{ fontFamily: "Poppins" }}
+        >
           Masuk ke <span className="text-gray-400 font-normal">PolCaBot</span>
         </h1>
         <form className="mt-6 space-y-4" onSubmit={handleLogin}>
@@ -81,7 +84,10 @@ export const Login = () => {
         </form>
         <div className="text-gray-400 my-4">Atau</div>
         <Link to="/register">
-          <button className="w-full py-2 rounded-2xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-600 text-white transition-colors" style={{ fontFamily: "Poppins" }}>
+          <button
+            className="w-full py-2 rounded-2xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-600 text-white transition-colors"
+            style={{ fontFamily: "Poppins" }}
+          >
             Daftar
           </button>
         </Link>
