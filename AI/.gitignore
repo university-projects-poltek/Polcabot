@@ -1,0 +1,32 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environment
+venv/
+.env/
+.envrc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+
+# Chroma DB (vector store)
+db/
+chroma.db/
+index/
+
+# Uploaded files
+uploads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Log or temp files
+*.log
+*.tmp
