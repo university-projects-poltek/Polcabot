@@ -1,95 +1,179 @@
-# Flask AI Chatbot with RAG
+# Flask AI Chatbot with RAG - Clean Architecture
 
-A Flask-based AI chatbot that uses Retrieval-Augmented Generation (RAG) to answer questions based on uploaded CSV/Excel files. The bot processes your documents, creates a vector database, and provides intelligent responses in Indonesian.
+A professionally structured Flask-based AI chatbot using Retrieval-Augmented Generation (RAG) with clean code principles, proper separation of concerns, and modular architecture.
 
-## Features
+## 🏗️ Architecture Overview
 
-- Upload CSV/Excel files to create a knowledge base
-- RAG-based question answering using local LLM
-- Vector similarity search with Chroma database
-- Indonesian language responses
-- RESTful API endpoints
-- Automatic document chunking and embedding
+This application follows clean architecture principles with clear separation of concerns:
 
-## Prerequisites
+- **`config.py`** - Configuration management and settings
+- **`models.py`** - Data models and document processing logic
+- **`services.py`** - Business logic and core services
+- **`utils.py`** - Utility functions and helpers
+- **`routes.py`** - HTTP route handlers and API logic
+- **`app.py`** - Flask application factory and main entry point
+- **`run.py`** - Alternative entry point with enhanced logging
 
-- Python 3.8 or higher
-- Ollama installed and running
-- At least 4GB of RAM (recommended 8GB+)
+## 📁 Project Structure
 
-## Installation
+```
+chatbot-project/
+├── app.py                 # Main Flask application factory
+├── config.py              # Configuration and settings
+├── models.py              # Document processing models
+├── services.py            # Knowledge base service layer
+├── utils.py               # Utility functions
+├── routes.py              # API route handlers
+├── run.py                 # Enhanced entry point
+├── requirements.txt       # Python dependencies
+├── .env                   # Environment variables (optional)
+├── README.md              # This documentation
+├── tests/                 # Unit tests
+│   ├── test_models.py
+│   ├── test_utils.py
+│   └── test_services.py
+├── uploads/               # Auto-created upload directory
+└── db/                    # Auto-created vector database
+```
 
-### 1. Install Ollama
+## ✨ Features
 
-First, install Ollama from [https://ollama.ai](https://ollama.ai)
+### Core Features
 
-Then pull the required model:
+- **Clean Architecture** - Modular design with separation of concerns
+- **Document Processing** - Support for CSV and Excel files
+- **Vector Search** - Intelligent document retrieval using embeddings
+- **Indonesian Responses** - Localized AI responses
+- **Error Handling** - Comprehensive error handling and validation
+- **File Management** - Secure file upload and cleanup
+
+### Technical Features
+
+- **Configuration Management** - Centralized settings in `config.py`
+- **Service Layer** - Business logic separated from routes
+- **Utility Functions** - Reusable helper functions
+- **Input Validation** - Robust input validation and sanitization
+- **Response Formatting** - Consistent API response format
+- **Health Checks** - System health monitoring endpoint
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
 
 ```bash
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Pull the required model
 ollama pull deepseek-r1:1.5b
 ```
 
-### 2. Clone/Download the Code
-
-Save the Flask application code to a file named `app.py`.
-
-### 3. Install Python Dependencies
-
-Create a virtual environment (recommended):
+### 2. Project Setup
 
 ```bash
+# Clone/create project directory
+mkdir chatbot-project && cd chatbot-project
+
+# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-Install required packages:
+### 3. Run the Application
 
-```bash
-pip install flask pandas langchain-community langchain-core chromadb sentence-transformers openpyxl
-```
-
-### 4. Create Project Structure
-
-```
-your-project/
-├── app.py
-├── uploads/          # Will be created automatically
-├── db/              # Will be created automatically
-└── requirements.txt  # Optional
-```
-
-## Usage
-
-### 1. Start the Application
+**Option 1: Using app.py**
 
 ```bash
 python app.py
 ```
 
-The server will start on `http://localhost:5000`
-
-### 2. Upload a Document
-
-Upload a CSV or Excel file to create the knowledge base:
+**Option 2: Using run.py (recommended)**
 
 ```bash
-curl -X POST -F "file=@your_data.csv" http://localhost:5000/update
+python run.py
 ```
 
-Or using Python:
+The application will start on `http://localhost:5000`
+
+## 🔧 Configuration
+
+### Environment Variables (.env file)
+
+```bash
+# Flask Configuration
+FLASK_PORT=5000
+FLASK_DEBUG=False
+
+# Model Configuration
+EMBEDDING_MODEL=all-MiniLM-L6-v2
+LLM_MODEL=deepseek-r1:1.5b
+
+# Processing Configuration
+CHUNK_SIZE=500
+CHUNK_OVERLAP=50
+
+# File Configuration
+MAX_CONTENT_LENGTH=16777216
+UPLOAD_DIR=uploads
+DB_DIR=db
+```
+
+### Programmatic Configuration
+
+Modify `config.py` to change application settings:
 
 ```python
-import requests
+class Config:
+    # Change chunk size for different document processing
+    CHUNK_SIZE = 1000
+    CHUNK_OVERLAP = 100
 
-with open('your_data.csv', 'rb') as f:
-    files = {'file': f}
-    response = requests.post('http://localhost:5000/update', files=files)
-    print(response.json())
+    # Use different models
+    EMBEDDING_MODEL = "sentence-transformers/all-mpnet-base-v2"
+    LLM_MODEL = "llama2:7b"
+
+    # Adjust file size limits
+    MAX_CONTENT_LENGTH = 32 * 1024 * 1024  # 32MB
 ```
 
-### 3. Ask Questions
+## 📡 API Endpoints
 
-Send questions to get AI-powered answers:
+### GET `/` - Welcome
+
+```bash
+curl http://localhost:5000/
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "message": "Welcome to the AI Chat Bot API",
+  "version": "1.0",
+  "status": "running"
+}
+```
+
+### POST `/update` - Upload Document
+
+```bash
+curl -X POST -F "file=@data.csv" http://localhost:5000/update
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "message": "Knowledge base updated successfully."
+}
+```
+
+### POST `/ask` - Ask Question
 
 ```bash
 curl -X POST -H "Content-Type: application/json" \
@@ -97,147 +181,233 @@ curl -X POST -H "Content-Type: application/json" \
      http://localhost:5000/ask
 ```
 
-Or using Python:
+Response:
 
-```python
-import requests
-
-data = {"question": "Apa saja data yang tersedia?"}
-response = requests.post('http://localhost:5000/ask', json=data)
-print(response.json())
+```json
+{
+  "success": true,
+  "message": "Question processed successfully",
+  "answer": "Berdasarkan data yang tersedia..."
+}
 ```
 
-## API Endpoints
+### GET `/health` - Health Check
 
-### GET /
-
-- **Description**: Welcome message
-- **Response**: `{"message": "Welcome to the AI Chat Bot API"}`
-
-### POST /update
-
-- **Description**: Upload and process a document
-- **Parameters**:
-  - `file`: CSV or Excel file (multipart/form-data)
-- **Response**: `{"message": "Knowledge base updated."}`
-- **Supported formats**: `.csv`, `.xlsx`, `.xls`
-
-### POST /ask
-
-- **Description**: Ask a question based on uploaded documents
-- **Parameters**:
-  - `question`: Your question in JSON format
-- **Response**: `{"answer": "AI generated answer"}`
-
-## Example Workflow
-
-1. **Start the server**:
-
-   ```bash
-   python app.py
-   ```
-
-2. **Upload your data** (example with sales data):
-
-   ```bash
-   curl -X POST -F "file=@sales_data.csv" http://localhost:5000/update
-   ```
-
-3. **Ask questions**:
-
-   ```bash
-   # Ask about sales data
-   curl -X POST -H "Content-Type: application/json" \
-        -d '{"question": "Berapa total penjualan bulan ini?"}' \
-        http://localhost:5000/ask
-
-   # Ask for trends
-   curl -X POST -H "Content-Type: application/json" \
-        -d '{"question": "Apa tren penjualan yang terlihat dari data?"}' \
-        http://localhost:5000/ask
-   ```
-
-## Configuration
-
-### Change the LLM Model
-
-To use a different Ollama model, modify this line in `app.py`:
-
-```python
-llm = Ollama(model="your-preferred-model")
+```bash
+curl http://localhost:5000/health
 ```
 
-### Adjust Chunk Size
+Response:
 
-Modify the text splitter settings:
-
-```python
-splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+```json
+{
+  "status": "healthy",
+  "knowledge_base_initialized": true
+}
 ```
 
-### Change Embedding Model
+## 🧪 Testing
 
-Replace with a different HuggingFace model:
+### Run Unit Tests
 
-```python
-embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+```bash
+# Run all tests
+python -m pytest tests/
+
+# Run specific test file
+python -m pytest tests/test_models.py
+
+# Run with coverage
+python -m pytest tests/ --cov=.
 ```
 
-## Troubleshooting
+### Manual Testing
+
+```python
+# Test document processing
+from models import DocumentProcessor
+processor = DocumentProcessor()
+documents, error = processor.process_file("test_data.csv")
+
+# Test knowledge base service
+from services import KnowledgeBaseService
+kb_service = KnowledgeBaseService()
+message, status = kb_service.update_knowledge_base("test_data.csv")
+```
+
+## 🛠️ Development
+
+### Adding New Features
+
+1. **New Route**: Add to `routes.py`
+
+```python
+def new_endpoint(self):
+    """Handle new functionality."""
+    # Implementation here
+    pass
+```
+
+2. **New Service**: Extend `services.py`
+
+```python
+class NewService:
+    """New business logic service."""
+    pass
+```
+
+3. **New Utility**: Add to `utils.py`
+
+```python
+class NewUtils:
+    """New utility functions."""
+    pass
+```
+
+### Code Style Guidelines
+
+- Follow PEP 8 style guidelines
+- Use type hints where possible
+- Write comprehensive docstrings
+- Add unit tests for new functionality
+- Use descriptive variable and function names
+
+### Error Handling Pattern
+
+```python
+def your_function():
+    try:
+        # Main logic
+        result = some_operation()
+        return result, None
+    except SpecificException as e:
+        return None, f"Specific error: {str(e)}"
+    except Exception as e:
+        return None, f"Unexpected error: {str(e)}"
+```
+
+## 🔍 Troubleshooting
 
 ### Common Issues
 
-1. **"Ollama model not found"**
+**ImportError: No module named 'X'**
 
-   - Make sure Ollama is running: `ollama serve`
-   - Verify the model is installed: `ollama list`
-
-2. **"No module named 'sentence_transformers'"**
-
-   - Install it: `pip install sentence-transformers`
-
-3. **Memory issues**
-
-   - Use a smaller model like `deepseek-r1:1.5b`
-   - Reduce chunk_size in the text splitter
-
-4. **File upload errors**
-   - Check file format (only CSV/Excel supported)
-   - Ensure file is not corrupted
-   - Verify file size (large files may take time)
-
-### Performance Tips
-
-- Use SSD storage for better vector database performance
-- Increase RAM for larger documents
-- Consider using GPU acceleration for embeddings
-- Batch process multiple files if needed
-
-## Dependencies
-
-Create a `requirements.txt` file:
-
-```
-flask==2.3.3
-pandas==2.0.3
-langchain-community==0.2.10
-langchain-core==0.2.23
-chromadb==0.4.15
-sentence-transformers==2.2.2
-openpyxl==3.1.2
+```bash
+pip install -r requirements.txt
 ```
 
-## Security Notes
+**Ollama connection failed**
 
-- This is a development server; use a production WSGI server for deployment
-- Add authentication for production use
-- Validate and sanitize file uploads
-- Implement rate limiting for API endpoints
+```bash
+# Check if Ollama is running
+ollama serve
 
-## License
+# Verify model is installed
+ollama list
+```
 
-This project is open source. Modify and use as needed for your applications.
+**File upload fails**
 
-## Contributing
+- Check file size (default limit: 16MB)
+- Verify file format (CSV, XLSX, XLS only)
+- Ensure proper permissions on upload directory
 
-Feel free to submit issues, feature requests, or pull requests to improve this chatbot implementation.
+**Knowledge base not initialized**
+
+- Upload a file first using `/update` endpoint
+- Check if the file was processed successfully
+- Verify Ollama model is available
+
+### Debug Mode
+
+Enable debug mode in `config.py`:
+
+```python
+class Config:
+    FLASK_DEBUG = True
+```
+
+Or set environment variable:
+
+```bash
+export FLASK_DEBUG=True
+python run.py
+```
+
+## 📊 Monitoring and Logging
+
+### Health Monitoring
+
+The `/health` endpoint provides system status:
+
+- Application health
+- Knowledge base initialization status
+- Model availability (future enhancement)
+
+### Logging Enhancement
+
+Add logging to track application behavior:
+
+```python
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+```
+
+## 🚀 Deployment
+
+### Production Considerations
+
+1. **Use Production WSGI Server**
+
+```bash
+pip install gunicorn
+gunicorn -w 4 -b 0.0.0.0:5000 app:create_app()
+```
+
+2. **Environment Variables**
+
+```bash
+export FLASK_DEBUG=False
+export FLASK_PORT=5000
+```
+
+3. **Security Enhancements**
+
+- Add authentication middleware
+- Implement rate limiting
+- Use HTTPS in production
+- Validate and sanitize all inputs
+
+4. **Performance Optimization**
+
+- Use Redis for caching
+- Implement connection pooling
+- Add request/response compression
+- Monitor memory usage
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Write tests for new functionality
+4. Ensure all tests pass
+5. Follow code style guidelines
+6. Submit a pull request
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+## 🆘 Support
+
+For support and questions:
+
+- Check the troubleshooting section
+- Review the API documentation
+- Submit issues for bugs or feature requests
+- Contribute improvements via pull requests
