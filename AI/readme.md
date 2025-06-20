@@ -28,10 +28,6 @@ chatbot-project/
 ├── requirements.txt       # Python dependencies
 ├── .env                   # Environment variables (optional)
 ├── README.md              # This documentation
-├── tests/                 # Unit tests
-│   ├── test_models.py
-│   ├── test_utils.py
-│   └── test_services.py
 ├── uploads/               # Auto-created upload directory
 └── db/                    # Auto-created vector database
 ```
@@ -204,35 +200,6 @@ Response:
   "status": "healthy",
   "knowledge_base_initialized": true
 }
-```
-
-## 🧪 Testing
-
-### Run Unit Tests
-
-```bash
-# Run all tests
-python -m pytest tests/
-
-# Run specific test file
-python -m pytest tests/test_models.py
-
-# Run with coverage
-python -m pytest tests/ --cov=.
-```
-
-### Manual Testing
-
-```python
-# Test document processing
-from models import DocumentProcessor
-processor = DocumentProcessor()
-documents, error = processor.process_file("test_data.csv")
-
-# Test knowledge base service
-from services import KnowledgeBaseService
-kb_service = KnowledgeBaseService()
-message, status = kb_service.update_knowledge_base("test_data.csv")
 ```
 
 ## 🛠️ Development
