@@ -26,6 +26,10 @@ const Router = createBrowserRouter([
     path: "/user/home",
     element: <UserHome />,
   },
+  {
+    path: "/chatroom",
+    element: <ChatRoomPage />,
+  },
 ]);
 
 export default Router;
