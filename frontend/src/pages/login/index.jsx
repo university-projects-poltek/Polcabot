@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Logo from "../../assets/logo-v1.png";
 import { Link, useNavigate } from "react-router-dom";
 
+import { enqueueSnackbar } from "notistack";
+
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,12 +20,12 @@ export const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
       const data = await res.json();
-
       if (res.ok) {
-        console.log("Role user yang login:", data.user.role); // ← Tambahkan ini
-        alert("Login berhasil!");
+        enqueueSnackbar(`Login berhasil!`, {
+          variant: "success",
+        });
+
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.user.role); // simpan role
         localStorage.setItem("name", data.user.name); //
@@ -34,11 +36,11 @@ export const Login = () => {
           navigate("/chatroom");
         }
       } else {
-        alert(data.message || "Login gagal");
+        enqueueSnackbar(data.message || "Login gagal", { variant: "error" });
       }
     } catch (err) {
       console.error("❌ Error saat login:", err);
-      alert("Terjadi kesalahan koneksi.");
+      enqueueSnackbar("Error saat login", { variant: "error" });
     }
   };
 
