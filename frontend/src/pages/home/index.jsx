@@ -1,9 +1,6 @@
-import React from "react";
-import { Link } from "react-router";
-import { Header } from "../../components/components/header";
-import { Footer } from "../../components/components/footer";
-import { SearchBar } from "../../components/components/searchbar";
-import { SuggestionCard } from "../../components/components/suggestioncard";
+import { Header } from "../../components/header";
+import { Footer } from "../../components/footer";
+import { SuggestionCard } from "../../components/suggestioncard";
 
 export const Home = () => {
   return (
