@@ -1,9 +1,6 @@
-import React from "react";
-import { Link } from "react-router";
-import { Header } from "../components/header";
-import { Footer } from "../components/footer";
-import { SearchBar } from "../components/searchbar";
-import { SuggestionCard } from "../components/suggestioncard";
+import { Header } from "../../components/header";
+import { Footer } from "../../components/footer";
+import { SuggestionCard } from "../../components/suggestioncard";
 
 export const Home = () => {
   return (
@@ -17,7 +14,6 @@ export const Home = () => {
         <p className="mt-2 text-sm text-center text-gray-400">
           Mahasiswa Polibatam? PolCaBot Jawaban Segala Pertanyaan Akademikmu!
         </p>
-        <SearchBar />
         <p className="mt-8 mb-4 text-gray-400">Coba Sekarang!</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-5xl">
           {Array.from({ length: 4 }).map((_, i) => (

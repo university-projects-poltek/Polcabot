@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Header } from "../components/header";
+import { Header } from "../../components/header";
 
 export const ChatRoomPage = () => {
   const [messages, setMessages] = useState([]);
