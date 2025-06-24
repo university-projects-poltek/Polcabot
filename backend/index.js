@@ -5,6 +5,7 @@ const port = 3001;
 
 // Import routes
 const authRoutes = require("./src/routes/auth"); // pastikan path ini sesuai struktur kamu
+const chatRoutes = require("./src/routes/chat");
 
 // Middleware
 app.use(cors()); // Biar bisa diakses dari frontend
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 
 // Gunakan routes auth
 app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Start server
 app.listen(port, () => {

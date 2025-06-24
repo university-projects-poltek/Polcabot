@@ -26,13 +26,14 @@ export const Login = () => {
         console.log("Role user yang login:", data.user.role); // ← Tambahkan ini
         alert("Login berhasil!");
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.user.id);
         localStorage.setItem("role", data.user.role); // simpan role
         localStorage.setItem("name", data.user.name); //
         // Arahkan ke halaman sesuai role
         if (data.user.role === "admin") {
           navigate("/admin/dashboard");
         } else {
-          navigate(data.redirect);
+          navigate("/chatroom");
         }
       } else {
         alert(data.message || "Login gagal");
