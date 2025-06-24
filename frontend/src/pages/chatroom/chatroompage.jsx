@@ -1,28 +1,43 @@
 import { useState, useRef, useEffect } from "react";
 import { Header } from "../../components/header";
+import { apiChatBot } from "../../utils/api-client";
 
 export const ChatRoomPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
 
+  console.log({ messages });
+
   const handleSend = async () => {
     if (!input.trim()) return;
+
+    setIsLoading(true);
 
     const userMsg = { text: input, sender: "user" };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
 
-    const aiResponse = await getAIResponse(input);
-    setMessages((prev) => [...prev, { text: aiResponse, sender: "bot" }]);
+    try {
+      const aiResponse = await getAIResponse(input);
+      setMessages((prev) => [...prev, { text: aiResponse, sender: "bot" }]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setMessages((prev) => [
+        ...prev,
+        { text: "Terjadi kesalahan, silakan coba lagi.", sender: "bot" },
+      ]);
+      return;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getAIResponse = async (userInput) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve("Ini adalah respons AI untuk: " + userInput);
-      }, 500);
-    });
+    const answer = await apiChatBot.post("/ask", { question: userInput });
+
+    return answer.data.answer;
   };
 
   const handleKeyDown = (e) => {
@@ -53,6 +68,9 @@ export const ChatRoomPage = () => {
       <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col-reverse">
         <div className="mx-auto max-w-3xl w-full flex flex-col-reverse gap-3">
           <div ref={messagesEndRef} />
+
+          {isLoading && "Lagi loading yaa..."}
+
           {[...messages].reverse().map((msg, idx) => (
             <div
               key={idx}
