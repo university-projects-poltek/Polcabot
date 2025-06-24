@@ -1,8 +1,8 @@
 export const Footer = () => (
-  <footer className="text-xs text-gray-500 text-center p-4">
-    <div className="flex justify-between px-2">
-      <span>Copyright © 2025</span>
-      <span>Terms and conditions</span>
-    </div>
+  <footer className="text-center text-gray-400 text-sm py-6 border-t border-gray-700">
+    &copy; 2025 PolCaBot. All rights reserved. |{" "}
+    <a href="#" className="underline hover:text-white">
+      Terms and Conditions
+    </a>
   </footer>
 );
