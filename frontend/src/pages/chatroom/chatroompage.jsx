@@ -8,8 +8,6 @@ export const ChatRoomPage = () => {
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
 
-  console.log({ messages });
-
   const handleSend = async () => {
     if (!input.trim()) return;
 
