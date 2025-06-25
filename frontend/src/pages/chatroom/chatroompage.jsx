@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Header } from "../components/header";
+import { Header } from "../../components/header";
 
 export const ChatRoomPage = () => {
   const [messages, setMessages] = useState([]);
@@ -13,7 +13,6 @@ export const ChatRoomPage = () => {
 
     const userMsg = { text: input, sender: "user" };
     setMessages((prev) => [...prev, userMsg]);
-
     setInput("");
 
     // Simpan pesan user ke backend
@@ -85,8 +84,14 @@ export const ChatRoomPage = () => {
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-screen bg-[#1E1E1E] text-white">
-      <div className="flex items-center border-gray-700">
+    <div
+      className="flex flex-col h-screen"
+      style={{
+        backgroundColor: "var(--color-bg-dark)",
+        color: "var(--color-text)",
+      }}
+    >
+      <div className="flex items-center border-b border-gray-700">
         <Header />
       </div>
 
@@ -94,18 +99,44 @@ export const ChatRoomPage = () => {
         <div className="mx-auto max-w-3xl w-full flex flex-col-reverse gap-3">
           <div ref={messagesEndRef} />
           {[...messages].reverse().map((msg, idx) => (
-            <div key={idx} className={`w-fit max-w-[75%] px-4 py-3 rounded-xl text-sm leading-relaxed break-words ${msg.sender === "user" ? "bg-purple-600 self-end ml-auto" : "bg-[#2A2A2A] self-start mr-auto"}`}>
+            <div
+              key={idx}
+              className={`w-fit max-w-[75%] px-4 py-3 rounded-xl text-sm leading-relaxed break-words ${msg.sender === "user" ? "self-end ml-auto" : "self-start mr-auto"}`}
+              style={{
+                backgroundColor: msg.sender === "user" ? "var(--color-primary)" : "var(--color-bg-chat)",
+              }}
+            >
               {msg.text}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="px-4 py-3 bg-[#1E1E1E] border-gray-700">
+      {/* Input Area */}
+      <div className="px-4 py-3 border-t border-gray-700" style={{ backgroundColor: "var(--color-bg-dark)" }}>
         <div className="flex items-center max-w-3xl mx-auto">
-          <div className="w-4 h-4 rounded-full bg-purple-500 mr-3" />
-          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKeyDown} placeholder="Tanya apa?" className="flex-1 bg-[#2A2A2A] text-white px-4 py-2 rounded-lg text-sm outline-none placeholder-gray-400" />
-          <button onClick={handleSend} className="ml-3 text-purple-400 hover:text-purple-300 text-sm font-semibold">
+          <div className="w-4 h-4 rounded-full bg-[var(--color-primary)] mr-3" />
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Tanya apa?"
+            className="flex-1 px-4 py-2 rounded-lg text-sm outline-none"
+            style={{
+              backgroundColor: "var(--color-bg-chat)",
+              color: "var(--color-text)",
+              fontFamily: "Poppins",
+              placeholderColor: "var(--color-placeholder)",
+            }}
+          />
+          <button
+            onClick={handleSend}
+            className="ml-3 text-sm font-semibold transition-colors"
+            style={{
+              color: "var(--color-primary)",
+              fontFamily: "Poppins",
+            }}
+          >
             Kirim
           </button>
         </div>

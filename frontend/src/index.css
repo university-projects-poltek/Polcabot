@@ -5,6 +5,19 @@
   font-weight: normal;
   font-style: normal;
 }
+:root {
+  --color-primary: #2563eb; /* blue-600 */
+  --color-primary-hover: #1d4ed8; /* blue-700 */
+  --color-accent: #3b82f6; /* blue-500 */
+  --color-text: #ffffff;
+  --color-background: #111827;
+  --color-bg-dark: #1e1e1e;
+  --color-bg-chat: #2a2a2a;
+  --color-placeholder: #9ca3af; /* gray-400 */
+  --color-secondary: #1e1e24;
+  --color-surface: #2e2e38;
+  --color-muted: #9ca3af;
+}
 
 @theme {
   --color-left: #4859f3;
