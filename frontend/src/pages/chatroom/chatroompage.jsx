@@ -8,8 +8,10 @@ export const ChatRoomPage = () => {
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
 
+  const userId = localStorage.getItem("userId"); // ambil userId dari localStorage
+
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || !userId) return;
 
     setIsLoading(true);
 
@@ -18,8 +20,33 @@ export const ChatRoomPage = () => {
     setInput("");
 
     try {
+      // Simpan pesan user ke backend
+      await fetch("http://localhost:3001/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          role: "user",
+          message: input,
+        }),
+      });
+
+      // Placeholder AI response
       const aiResponse = await getAIResponse(input);
-      setMessages((prev) => [...prev, { text: aiResponse, sender: "bot" }]);
+
+      const botMsg = { text: aiResponse, sender: "bot" };
+      setMessages((prev) => [...prev, botMsg]);
+
+      // Simpan balasan bot ke backend
+      await fetch("http://localhost:3001/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          role: "bot",
+          message: aiResponse,
+        }),
+      });
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prev) => [
@@ -45,6 +72,26 @@ export const ChatRoomPage = () => {
     }
   };
 
+  // Ambil riwayat chat dari backend
+  useEffect(() => {
+    const fetchHistory = async () => {
+      if (!userId) return;
+      try {
+        const res = await fetch(`http://localhost:3001/api/chat/${userId}`);
+        const data = await res.json();
+        const formatted = data.map((msg) => ({
+          text: msg.message,
+          sender: msg.role,
+        }));
+        setMessages(formatted);
+      } catch (err) {
+        console.error("Gagal ambil history:", err);
+      }
+    };
+
+    fetchHistory();
+  }, [userId]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -57,12 +104,10 @@ export const ChatRoomPage = () => {
         color: "var(--color-text)",
       }}
     >
-      {/* Header */}
       <div className="flex items-center border-b border-gray-700">
         <Header />
       </div>
 
-      {/* Chat Area */}
       <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col-reverse">
         <div className="mx-auto max-w-3xl w-full flex flex-col-reverse gap-3">
           <div ref={messagesEndRef} />

@@ -24,6 +24,7 @@ export const Login = () => {
         enqueueSnackbar(`Login berhasil!`, { variant: "success" });
 
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.user.id);
         localStorage.setItem("role", data.user.role);
         localStorage.setItem("name", data.user.name);
 
@@ -42,22 +43,13 @@ export const Login = () => {
   };
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen"
-      style={{ backgroundColor: "var(--color-secondary)" }}
-    >
+    <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "var(--color-secondary)" }}>
       <div className="text-center w-full max-w-xl">
         <div className="flex justify-center mb-6">
           <img src={Logo} alt="PolCaBot Logo" className="h-20" />
         </div>
-        <h1
-          className="text-3xl font-extrabold"
-          style={{ fontFamily: "Poppins", color: "var(--color-text)" }}
-        >
-          Masuk ke{" "}
-          <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>
-            PolCaBot
-          </span>
+        <h1 className="text-3xl font-extrabold" style={{ fontFamily: "Poppins", color: "var(--color-text)" }}>
+          Masuk ke <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>PolCaBot</span>
         </h1>
 
         <form className="mt-6 space-y-4" onSubmit={handleLogin}>
@@ -102,8 +94,7 @@ export const Login = () => {
               background: "transparent",
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background =
-                "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
+              e.currentTarget.style.background = "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
               e.currentTarget.style.color = "white";
             }}
             onMouseOut={(e) => {
@@ -124,8 +115,7 @@ export const Login = () => {
             className="w-full py-2 rounded-2xl font-extrabold text-white transition-colors"
             style={{
               fontFamily: "Poppins",
-              background:
-                "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
+              background: "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
             }}
           >
             Daftar
