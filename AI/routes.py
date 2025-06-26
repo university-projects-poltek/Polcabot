@@ -4,7 +4,6 @@
 from flask import request, jsonify
 from services import KnowledgeBaseService
 from utils import FileUtils, ResponseUtils
-from typing import Tuple
 
 class ChatBotRoutes:
     """Route handlers for the chatbot API."""
