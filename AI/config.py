@@ -1,31 +1,37 @@
 # config.py
-"""Configuration settings for the Flask AI Chatbot application."""
+"""Strict configuration loading from .env only."""
 
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class Config:
-    """Application configuration class."""
-    
+    """Configuration loaded strictly from environment variables."""
+
     # Directories
-    DB_DIR = "db"
-    UPLOAD_DIR = "uploads"
-    
+    DB_DIR = os.environ["DB_DIR"]
+    UPLOAD_DIR = os.environ["UPLOAD_DIR"]
+
     # Model configurations
-    EMBEDDING_MODEL = "all-MiniLM-L6-v2"
-    LLM_MODEL = "deepseek-r1:1.5b"
+    EMBEDDING_MODEL = os.environ["EMBEDDING_MODEL"]
+    LLM_MODEL = os.environ["LLM_MODEL"]
     
+    print((LLM_MODEL))
+
     # Text processing settings
-    CHUNK_SIZE = 500
-    CHUNK_OVERLAP = 50
-    
+    CHUNK_SIZE = int(os.environ["CHUNK_SIZE"])
+    CHUNK_OVERLAP = int(os.environ["CHUNK_OVERLAP"])
+
     # Flask settings
-    FLASK_PORT = 5000
-    FLASK_DEBUG = False
-    
+    FLASK_PORT = int(os.environ["FLASK_PORT"])
+    FLASK_DEBUG = os.environ["FLASK_DEBUG"].lower() == "true"
+
     # File settings
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
-    ALLOWED_EXTENSIONS = {'.csv', '.xlsx', '.xls'}
-    
+    MAX_CONTENT_LENGTH = int(os.environ["MAX_CONTENT_LENGTH"])
+    ALLOWED_EXTENSIONS = {ext.strip() for ext in os.environ["ALLOWED_EXTENSIONS"].split(",")}
+
     @staticmethod
     def create_directories():
         """Create necessary directories if they don't exist."""
