@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { Header } from "../../components/header";
+import { apiChatBot } from "../../utils/api-client";
 
 export const ChatRoomPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
@@ -11,45 +13,56 @@ export const ChatRoomPage = () => {
   const handleSend = async () => {
     if (!input.trim() || !userId) return;
 
+    setIsLoading(true);
+
     const userMsg = { text: input, sender: "user" };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
 
-    // Simpan pesan user ke backend
-    await fetch("http://localhost:3001/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId,
-        role: "user",
-        message: input,
-      }),
-    });
+    try {
+      // Simpan pesan user ke backend
+      await fetch("http://localhost:3001/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          role: "user",
+          message: input,
+        }),
+      });
 
-    // Placeholder AI response
-    const aiResponse = await getAIResponse(input);
+      // Placeholder AI response
+      const aiResponse = await getAIResponse(input);
 
-    const botMsg = { text: aiResponse, sender: "bot" };
-    setMessages((prev) => [...prev, botMsg]);
+      const botMsg = { text: aiResponse, sender: "bot" };
+      setMessages((prev) => [...prev, botMsg]);
 
-    // Simpan balasan bot ke backend
-    await fetch("http://localhost:3001/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId,
-        role: "bot",
-        message: aiResponse,
-      }),
-    });
+      // Simpan balasan bot ke backend
+      await fetch("http://localhost:3001/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          role: "bot",
+          message: aiResponse,
+        }),
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setMessages((prev) => [
+        ...prev,
+        { text: "Terjadi kesalahan, silakan coba lagi.", sender: "bot" },
+      ]);
+      return;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getAIResponse = async (userInput) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve("Ini adalah respons AI untuk: " + userInput);
-      }, 500);
-    });
+    const answer = await apiChatBot.post("/ask", { question: userInput });
+
+    return answer.data.answer;
   };
 
   const handleKeyDown = (e) => {
@@ -98,12 +111,22 @@ export const ChatRoomPage = () => {
       <div className="flex-1 overflow-y-auto px-4 py-6 flex flex-col-reverse">
         <div className="mx-auto max-w-3xl w-full flex flex-col-reverse gap-3">
           <div ref={messagesEndRef} />
+
+          {isLoading && "Lagi loading yaa..."}
+
           {[...messages].reverse().map((msg, idx) => (
             <div
               key={idx}
-              className={`w-fit max-w-[75%] px-4 py-3 rounded-xl text-sm leading-relaxed break-words ${msg.sender === "user" ? "self-end ml-auto" : "self-start mr-auto"}`}
+              className={`w-fit max-w-[75%] px-4 py-3 rounded-xl text-sm leading-relaxed break-words ${
+                msg.sender === "user"
+                  ? "self-end ml-auto"
+                  : "self-start mr-auto"
+              }`}
               style={{
-                backgroundColor: msg.sender === "user" ? "var(--color-primary)" : "var(--color-bg-chat)",
+                backgroundColor:
+                  msg.sender === "user"
+                    ? "var(--color-primary)"
+                    : "var(--color-bg-chat)",
               }}
             >
               {msg.text}
@@ -113,7 +136,10 @@ export const ChatRoomPage = () => {
       </div>
 
       {/* Input Area */}
-      <div className="px-4 py-3 border-t border-gray-700" style={{ backgroundColor: "var(--color-bg-dark)" }}>
+      <div
+        className="px-4 py-3 border-t border-gray-700"
+        style={{ backgroundColor: "var(--color-bg-dark)" }}
+      >
         <div className="flex items-center max-w-3xl mx-auto">
           <div className="w-4 h-4 rounded-full bg-[var(--color-primary)] mr-3" />
           <input
