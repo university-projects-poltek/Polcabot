@@ -54,6 +54,7 @@ export const Login = () => {
 
         <form className="mt-6 space-y-4" onSubmit={handleLogin}>
           <input
+            id="username"
             type="text"
             placeholder="Masukkan nama pengguna"
             value={username}
@@ -71,6 +72,7 @@ export const Login = () => {
             }}
           />
           <input
+            id="password"
             type="password"
             placeholder="Masukkan kata sandi"
             value={password}
@@ -85,6 +87,7 @@ export const Login = () => {
             }}
           />
           <button
+            id="submit-login"
             type="submit"
             className="w-full py-2 rounded-2xl transition-colors font-extrabold"
             style={{
@@ -112,6 +115,7 @@ export const Login = () => {
 
         <Link to="/register">
           <button
+            id="register-button"
             className="w-full py-2 rounded-2xl font-extrabold text-white transition-colors"
             style={{
               fontFamily: "Poppins",

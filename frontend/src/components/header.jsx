@@ -18,6 +18,7 @@ export const Header = () => {
         <div className="flex items-center space-x-4">
           <Link to="/login">
             <button
+              id="login-button"
               className="py-2 px-4 rounded-2xl font-semibold border transition-colors"
               style={{
                 borderColor: "var(--color-primary)",
@@ -30,6 +31,7 @@ export const Header = () => {
           </Link>
           <Link to="/register">
             <button
+              id="register-button"
               className="py-2 px-4 rounded-2xl font-semibold transition-colors"
               style={{
                 background:
