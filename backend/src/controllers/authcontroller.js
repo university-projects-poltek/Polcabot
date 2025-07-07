@@ -4,24 +4,39 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const { Op } = require("sequelize");
 
-// Validasi input
+// Validasi input yang ketat
 const validateRegisterInput = (data) => {
   const { name, email, username, password, confirmPassword } = data;
   const errors = {};
 
-  if (!name) errors.name = "Nama wajib diisi";
-  if (!email) {
-    errors.email = "Email wajib diisi";
-  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-    errors.email = "Format email tidak valid";
+  // Fullname wajib diisi (bisa tambahkan regex jika hanya ingin huruf)
+  if (!name) {
+    errors.name = "Nama wajib diisi";
   }
 
-  if (!username) errors.username = "Username wajib diisi";
+  // Email wajib dan hanya dari domain tertentu
+  if (!email) {
+    errors.email = "Email wajib diisi";
+  } else if (!/^[^\s@]+@(gmail\.com|yahoo\.com|student\.polibatam\.ac\.id)$/i.test(email)) {
+    errors.email = "Email tidak valid";
+  }
+
+  if (!username) {
+    errors.username = "Username wajib diisi";
+  } else if (!/^[a-zA-Z0-9]+$/.test(username)) {
+    errors.username = "Username hanya boleh mengandung huruf dan angka";
+  }
+
   if (!password) errors.password = "Password wajib diisi";
   if (!confirmPassword) errors.confirmPassword = "Konfirmasi password wajib diisi";
 
-  if (password && password.length < 6) errors.password = "Password minimal 6 karakter";
-  if (password !== confirmPassword) errors.confirmPassword = "Password tidak cocok";
+  if (password && password.length < 6) {
+    errors.password = "Password minimal 6 karakter";
+  }
+
+  if (password !== confirmPassword) {
+    errors.confirmPassword = "Password tidak cocok";
+  }
 
   return {
     errors,
@@ -45,11 +60,11 @@ exports.register = async (req, res) => {
     });
 
     if (existingUser) {
-      const errors = {};
-      if (existingUser.username === username) errors.username = "Username sudah digunakan";
-      if (existingUser.email === email) errors.email = "Email sudah digunakan";
+      const duplicateErrors = {};
+      if (existingUser.username === username) duplicateErrors.username = "Username sudah digunakan";
+      if (existingUser.email === email) duplicateErrors.email = "Email sudah digunakan";
 
-      return res.status(400).json({ success: false, errors });
+      return res.status(400).json({ success: false, errors: duplicateErrors });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
