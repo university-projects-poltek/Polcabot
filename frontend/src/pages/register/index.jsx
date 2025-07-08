@@ -21,19 +21,40 @@ export const Register = () => {
     e.preventDefault();
     const { name, email, username, password, confirmPassword } = form;
 
-    if (!name || !email || !username || !password || !confirmPassword) {
-      return alert("Semua field wajib diisi");
+    let errorMessages = [];
+
+    if (!name) errorMessages.push("Fullname tidak boleh kosong");
+    if (!email) errorMessages.push("Email tidak boleh kosong");
+    if (!username) errorMessages.push("Username tidak boleh kosong");
+    if (!password) errorMessages.push("Password tidak boleh kosong");
+    if (!confirmPassword) errorMessages.push("Konfirmasi password tidak boleh kosong");
+
+    // Fullname hanya huruf dan spasi
+    if (name && !/^[A-Za-z\s]+$/.test(name)) {
+      errorMessages.push("Fullname hanya boleh mengandung huruf");
     }
 
+    // Validasi username: hanya huruf dan angka
+    if (username && !/^[a-zA-Z0-9]+$/.test(username)) {
+      errorMessages.push("Username hanya boleh mengandung huruf dan angka");
+    }
+
+    // Password minimal 6 karakter
+    if (password && password.length < 6) {
+      errorMessages.push("Password minimal 6 karakter");
+    }
+
+    // Password dan konfirmasi cocok
     if (password !== confirmPassword) {
-      return alert("Password dan konfirmasi tidak cocok");
+      errorMessages.push("Password dan konfirmasi tidak cocok");
+    }
+
+    if (errorMessages.length > 0) {
+      return alert(errorMessages.join("\n"));
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/auth/register",
-        form
-      );
+      const response = await axios.post("http://localhost:3001/api/auth/register", form);
       alert(response.data.message || "Registrasi berhasil!");
       navigate("/login");
     } catch (error) {
@@ -51,21 +72,12 @@ export const Register = () => {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center px-4"
-      style={{ backgroundColor: "var(--color-secondary)" }}
-    >
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "var(--color-secondary)" }}>
       <div className="max-w-xl w-full text-center">
         <div className="flex flex-col items-center mb-6">
           <img src={Logo} alt="Logo" className="h-20 mb-4" />
-          <h1
-            className="text-3xl font-extrabold"
-            style={{ fontFamily: "Poppins", color: "var(--color-text)" }}
-          >
-            Daftar ke{" "}
-            <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>
-              PolCaBot
-            </span>
+          <h1 className="text-3xl font-extrabold" style={{ fontFamily: "Poppins", color: "var(--color-text)" }}>
+            Daftar ke <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>PolCaBot</span>
           </h1>
         </div>
 
@@ -127,8 +139,7 @@ export const Register = () => {
               background: "transparent",
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background =
-                "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
+              e.currentTarget.style.background = "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
               e.currentTarget.style.color = "white";
             }}
             onMouseOut={(e) => {
@@ -149,8 +160,7 @@ export const Register = () => {
               className="w-full py-2 rounded-2xl font-extrabold text-white transition-colors"
               style={{
                 fontFamily: "Poppins",
-                background:
-                  "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
+                background: "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
               }}
             >
               Masuk
