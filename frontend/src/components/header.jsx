@@ -27,6 +27,7 @@ export const Header = () => {
           <>
             <Link to="/login">
               <button
+                id="login-button"
                 className="py-2 px-4 rounded-2xl font-semibold border transition-colors"
                 style={{
                   borderColor: "var(--color-primary)",
@@ -39,6 +40,7 @@ export const Header = () => {
             </Link>
             <Link to="/register">
               <button
+                id="register-button"
                 className="py-2 px-4 rounded-2xl font-semibold transition-colors"
                 style={{
                   background: "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
@@ -53,7 +55,7 @@ export const Header = () => {
         ) : (
           userId && (
             <button
-              id="login-button"
+              id="logout-button"
               className="py-2 px-4 rounded-2xl font-semibold border transition-colors"
               onClick={handleLogout}
               style={{

@@ -25,14 +25,14 @@ time.sleep(3)
 
 # Data test case dari gambar
 login_test_cases = [
-    {"id": "L001", "username": "Saii", "password": "Saii23"},                   # ✅ valid
-    {"id": "L002", "username": "SaiiFake", "password": "Saii23"},               # ❌ username tidak ditemukan
-    {"id": "L003", "username": "Saii", "password": "SalahPassword"},            # ❌ password salah
-    {"id": "L004", "username": "", "password": "SaiiGanteng"},                  # ❌ username kosong
-    {"id": "L005", "username": "SaiiGanteng", "password": ""},                  # ❌ password kosong
-    {"id": "L006", "username": "", "password": ""},                             # ❌ semua field kosong
-    {"id": "L007", "username": "saii@gmail.com", "password": "Saii23"},         # ❌ username pakai email
-    {"id": "L008", "username": "Saii", "password": "123"},                      # ❌ password pendek
+    {"username": "SaiiFake",        "password": "Saii23"},                   # ❌ username tidak ditemukan
+    {"username": "Saii",            "password": "SalahPassword"},            # ❌ password salah
+    {"username": "",                "password": "SaiiGanteng"},              # ❌ username kosong
+    {"username": "SaiiGanteng",     "password": ""},                         # ❌ password kosong
+    {"username": "",                "password": ""},                         # ❌ semua field kosong
+    {"username": "saii@gmail.com",  "password": "Saii23"},                   # ❌ username pakai email
+    {"username": "Saii",            "password": "123"},                      # ❌ password 
+    {"username": "Saii",            "password": "Saii23"},                   # ✅ valid
 ]
 
 def fill_login_and_submit(data):
