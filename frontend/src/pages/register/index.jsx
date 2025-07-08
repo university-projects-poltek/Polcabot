@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Logo from "../../assets/logo-v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -22,11 +23,15 @@ export const Register = () => {
     const { name, email, username, password, confirmPassword } = form;
 
     if (!name || !email || !username || !password || !confirmPassword) {
-      return alert("Semua field wajib diisi");
+      enqueueSnackbar("Semua field wajib diisi", { variant: "error" });
+      return;
     }
 
     if (password !== confirmPassword) {
-      return alert("Password dan konfirmasi tidak cocok");
+      enqueueSnackbar("Password dan konfirmasi tidak cocok", {
+        variant: "error",
+      });
+      return;
     }
 
     try {
@@ -34,7 +39,9 @@ export const Register = () => {
         "http://localhost:3001/api/auth/register",
         form
       );
-      alert(response.data.message || "Registrasi berhasil!");
+      enqueueSnackbar(response.data.message || "Registrasi berhasil!", {
+        variant: "success",
+      });
       navigate("/login");
     } catch (error) {
       if (error.response) {
@@ -43,9 +50,11 @@ export const Register = () => {
         if (errors && typeof errors === "object") {
           fullMessage = Object.values(errors).join("\n");
         }
-        alert(fullMessage);
+        enqueueSnackbar(fullMessage, { variant: "error" });
       } else {
-        alert("Terjadi kesalahan jaringan atau server");
+        enqueueSnackbar("Terjadi kesalahan jaringan atau server", {
+          variant: "error",
+        });
       }
     }
   };
