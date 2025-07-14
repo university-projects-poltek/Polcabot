@@ -11,6 +11,33 @@ export const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    // ✅ Validasi sesuai test case L001 - L008
+    if (!username && !password) {
+      enqueueSnackbar("Semua field wajib diisi", { variant: "error" });
+      return;
+    }
+
+    if (!username) {
+      enqueueSnackbar("Username tidak boleh kosong", { variant: "error" });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(username)) {
+      enqueueSnackbar("Username bukan email", { variant: "error" });
+      return;
+    }
+
+    if (!password) {
+      enqueueSnackbar("Password tidak boleh kosong", { variant: "error" });
+      return;
+    }
+
+    if (password.length < 6) {
+      enqueueSnackbar("Password minimal 6 karakter", { variant: "error" });
+      return;
+    }
+
     try {
       const res = await fetch("http://localhost:3001/api/auth/login", {
         method: "POST",
@@ -20,8 +47,9 @@ export const Login = () => {
         body: JSON.stringify({ username, password }),
       });
       const data = await res.json();
+
       if (res.ok) {
-        enqueueSnackbar(`Login berhasil!`, { variant: "success" });
+        enqueueSnackbar("Login berhasil!", { variant: "success" });
 
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.user.id);
@@ -43,13 +71,22 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: "var(--color-secondary)" }}>
+    <div
+      className="flex items-center justify-center min-h-screen"
+      style={{ backgroundColor: "var(--color-secondary)" }}
+    >
       <div className="text-center w-full max-w-xl">
         <div className="flex justify-center mb-6">
           <img src={Logo} alt="PolCaBot Logo" className="h-20" />
         </div>
-        <h1 className="text-3xl font-extrabold" style={{ fontFamily: "Poppins", color: "var(--color-text)" }}>
-          Masuk ke <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>PolCaBot</span>
+        <h1
+          className="text-3xl font-extrabold"
+          style={{ fontFamily: "Poppins", color: "var(--color-text)" }}
+        >
+          Masuk ke{" "}
+          <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>
+            PolCaBot
+          </span>
         </h1>
 
         <form className="mt-6 space-y-4" onSubmit={handleLogin}>
@@ -63,7 +100,7 @@ export const Login = () => {
               fontFamily: "Anonymous Pro",
               backgroundColor: "var(--color-surface)",
               color: "var(--color-text)",
-              borderColor: "#4b5563", // gray-600
+              borderColor: "#4b5563",
               caretColor: "var(--color-primary)",
               outline: "none",
               boxShadow: "none",
@@ -94,7 +131,8 @@ export const Login = () => {
               background: "transparent",
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background = "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
+              e.currentTarget.style.background =
+                "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
               e.currentTarget.style.color = "white";
             }}
             onMouseOut={(e) => {
@@ -115,7 +153,8 @@ export const Login = () => {
             className="w-full py-2 rounded-2xl font-extrabold text-white transition-colors"
             style={{
               fontFamily: "Poppins",
-              background: "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
+              background:
+                "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
             }}
           >
             Daftar

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Logo from "../../assets/logo-v1.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -27,7 +28,8 @@ export const Register = () => {
     if (!email) errorMessages.push("Email tidak boleh kosong");
     if (!username) errorMessages.push("Username tidak boleh kosong");
     if (!password) errorMessages.push("Password tidak boleh kosong");
-    if (!confirmPassword) errorMessages.push("Konfirmasi password tidak boleh kosong");
+    if (!confirmPassword)
+      errorMessages.push("Konfirmasi password tidak boleh kosong");
 
     // Fullname hanya huruf dan spasi
     if (name && !/^[A-Za-z\s]+$/.test(name)) {
@@ -54,8 +56,13 @@ export const Register = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3001/api/auth/register", form);
-      alert(response.data.message || "Registrasi berhasil!");
+      const response = await axios.post(
+        "http://localhost:3001/api/auth/register",
+        form
+      );
+      enqueueSnackbar(response.data.message || "Registrasi berhasil!", {
+        variant: "success",
+      });
       navigate("/login");
     } catch (error) {
       if (error.response) {
@@ -64,20 +71,31 @@ export const Register = () => {
         if (errors && typeof errors === "object") {
           fullMessage = Object.values(errors).join("\n");
         }
-        alert(fullMessage);
+        enqueueSnackbar(fullMessage, { variant: "error" });
       } else {
-        alert("Terjadi kesalahan jaringan atau server");
+        enqueueSnackbar("Terjadi kesalahan jaringan atau server", {
+          variant: "error",
+        });
       }
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "var(--color-secondary)" }}>
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ backgroundColor: "var(--color-secondary)" }}
+    >
       <div className="max-w-xl w-full text-center">
         <div className="flex flex-col items-center mb-6">
           <img src={Logo} alt="Logo" className="h-20 mb-4" />
-          <h1 className="text-3xl font-extrabold" style={{ fontFamily: "Poppins", color: "var(--color-text)" }}>
-            Daftar ke <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>PolCaBot</span>
+          <h1
+            className="text-3xl font-extrabold"
+            style={{ fontFamily: "Poppins", color: "var(--color-text)" }}
+          >
+            Daftar ke{" "}
+            <span style={{ color: "var(--color-muted)", fontWeight: "normal" }}>
+              PolCaBot
+            </span>
           </h1>
         </div>
 
@@ -125,7 +143,8 @@ export const Register = () => {
               background: "transparent",
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background = "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
+              e.currentTarget.style.background =
+                "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
               e.currentTarget.style.color = "white";
             }}
             onMouseOut={(e) => {
@@ -146,7 +165,8 @@ export const Register = () => {
               className="w-full py-2 rounded-2xl font-extrabold text-white transition-colors"
               style={{
                 fontFamily: "Poppins",
-                background: "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
+                background:
+                  "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
               }}
             >
               Masuk
