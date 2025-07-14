@@ -22,16 +22,37 @@ export const Register = () => {
     e.preventDefault();
     const { name, email, username, password, confirmPassword } = form;
 
-    if (!name || !email || !username || !password || !confirmPassword) {
-      enqueueSnackbar("Semua field wajib diisi", { variant: "error" });
-      return;
+    let errorMessages = [];
+
+    if (!name) errorMessages.push("Fullname tidak boleh kosong");
+    if (!email) errorMessages.push("Email tidak boleh kosong");
+    if (!username) errorMessages.push("Username tidak boleh kosong");
+    if (!password) errorMessages.push("Password tidak boleh kosong");
+    if (!confirmPassword)
+      errorMessages.push("Konfirmasi password tidak boleh kosong");
+
+    // Fullname hanya huruf dan spasi
+    if (name && !/^[A-Za-z\s]+$/.test(name)) {
+      errorMessages.push("Fullname hanya boleh mengandung huruf");
     }
 
+    // Validasi username: hanya huruf dan angka
+    if (username && !/^[a-zA-Z0-9]+$/.test(username)) {
+      errorMessages.push("Username hanya boleh mengandung huruf dan angka");
+    }
+
+    // Password minimal 6 karakter
+    if (password && password.length < 6) {
+      errorMessages.push("Password minimal 6 karakter");
+    }
+
+    // Password dan konfirmasi cocok
     if (password !== confirmPassword) {
-      enqueueSnackbar("Password dan konfirmasi tidak cocok", {
-        variant: "error",
-      });
-      return;
+      errorMessages.push("Password dan konfirmasi tidak cocok");
+    }
+
+    if (errorMessages.length > 0) {
+      return alert(errorMessages.join("\n"));
     }
 
     try {
