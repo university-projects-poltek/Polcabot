@@ -22,12 +22,6 @@ export const Login = () => {
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(username)) {
-      enqueueSnackbar("Username bukan email", { variant: "error" });
-      return;
-    }
-
     if (!password) {
       enqueueSnackbar("Password tidak boleh kosong", { variant: "error" });
       return;
