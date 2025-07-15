@@ -4,14 +4,14 @@ import {
   MessageCircle,
   Clock,
   Users,
-  Zap,
   BookOpen,
-  Calendar,
-  User,
   CheckCircle,
 } from "lucide-react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
+
+import Logo from "../../assets/logo-v1.png";
+import { Link } from "react-router";
 
 export const Home = () => {
   const [visibleStats, setVisibleStats] = useState({});
@@ -90,21 +90,21 @@ export const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div
+      className="min-h-screen bg-gray-50"
+      style={{ backgroundColor: "var(--color-secondary)" }}
+    >
       <Header />
 
       {/* Hero Section */}
-      <section className=" h-screen pt-24 pb-20 px-4 bg-blue-600 text-white overflow-hidden flex justify-center items-center">
+      <section className=" h-screen pt-24 pb-20 px-4  text-white overflow-hidden flex justify-center items-center">
         <div>
           <div className=" text-center max-w-5xl mx-auto">
             {/* Logo and Title */}
             <div className="flex justify-center items-center gap-4 mb-8">
               <div className="relative">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300">
-                  <MessageCircle className="w-8 h-8 md:w-10 md:h-10 text-blue-600" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                <div className="w-16 h-16 md:w-20 md:h-20  rounded-2xl flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300">
+                  <img src={Logo} alt="PolCaBot" />
                 </div>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-white">
@@ -130,16 +130,15 @@ export const Home = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <button className="group bg-yellow-400 text-blue-900 px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-yellow-300 transition-all duration-300 hover:scale-105">
+              <Link
+                to={"/login"}
+                className="group bg-yellow-400 text-blue-900 px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-yellow-300 transition-all duration-300 hover:scale-105"
+              >
                 <span className="flex items-center justify-center gap-2">
                   <MessageCircle className="w-5 h-5" />
                   Coba Sekarang!
                 </span>
-              </button>
-              <button className="border-2 border-white text-white px-10 py-4 rounded-full text-lg font-medium transition-all duration-300 hover:bg-white hover:text-blue-600 flex items-center justify-center gap-2">
-                <BookOpen className="w-5 h-5" />
-                Pelajari Fitur
-              </button>
+              </Link>
             </div>
 
             {/* Stats */}
@@ -186,13 +185,13 @@ export const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section id="fitur" className="py-20 px-6 bg-gray-50">
+      <section id="fitur" className="py-20 px-6 ">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
-              <span className="text-blue-600">Fitur Unggulan</span>
+              <span className="text-white">Fitur Unggulan</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
               Solusi lengkap untuk kebutuhan informasi akademik mahasiswa
               Polibatam
             </p>
@@ -224,17 +223,17 @@ export const Home = () => {
             ].map((feature, index) => (
               <div
                 key={index}
-                className="group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="group bg-white/10 backdrop-blur-sm border  rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <div
                   className={`w-16 h-16 ${feature.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
                 >
                   <div className="text-white">{feature.icon}</div>
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800">
+                <h3 className="text-2xl font-bold mb-4 text-yellow-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-white leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -244,16 +243,16 @@ export const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonial" className="py-20 px-6 bg-white">
+      <section id="testimonial" className="py-20 px-6 ">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
-            <span className="text-blue-600">Apa Kata Mahasiswa</span>
+            <span className="text-white">Apa Kata Mahasiswa</span>
           </h2>
-          <p className="text-xl text-gray-600 mb-12">
+          <p className="text-xl text-blue-100 mb-12">
             Testimoni dari pengguna yang sudah merasakan manfaat PolCaBot
           </p>
 
-          <div className="relative bg-gray-50 rounded-3xl p-8 md:p-12 max-w-2xl mx-auto shadow-lg">
+          <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 max-w-2xl mx-auto shadow-lg">
             <div className="flex justify-center mb-4">
               {[...Array(testimonials[currentTestimonial].rating)].map(
                 (_, i) => (
@@ -263,10 +262,10 @@ export const Home = () => {
                 )
               )}
             </div>
-            <p className="text-lg md:text-xl text-gray-700 italic mb-6 leading-relaxed">
+            <p className="text-lg md:text-xl text-white italic mb-6 leading-relaxed">
               "{testimonials[currentTestimonial].text}"
             </p>
-            <p className="text-gray-800 font-semibold text-lg">
+            <p className="text-yellow-500 font-semibold text-lg">
               {testimonials[currentTestimonial].author}
             </p>
 
@@ -277,7 +276,9 @@ export const Home = () => {
                   key={index}
                   onClick={() => setCurrentTestimonial(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentTestimonial ? "bg-blue-600" : "bg-gray-300"
+                    index === currentTestimonial
+                      ? "bg-yellow-400"
+                      : "bg-gray-300"
                   }`}
                 />
               ))}
@@ -287,7 +288,7 @@ export const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-blue-600 text-white">
+      <section className="py-20 px-6  text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Siap Memulai Percakapan?
@@ -296,9 +297,12 @@ export const Home = () => {
             Bergabunglah dengan ribuan mahasiswa Polibatam yang sudah merasakan
             kemudahan PolCaBot
           </p>
-          <button className="bg-yellow-400 text-blue-900 px-12 py-4 rounded-full text-lg font-bold hover:bg-yellow-300 transition-all duration-300 hover:scale-105 shadow-xl">
+          <Link
+            to={"/login"}
+            className="bg-yellow-400 text-blue-900 px-12 py-4 rounded-full text-lg font-bold hover:bg-yellow-300 transition-all duration-300 hover:scale-105 shadow-xl"
+          >
             Mulai Chat Gratis
-          </button>
+          </Link>
         </div>
       </section>
 
