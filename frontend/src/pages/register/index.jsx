@@ -143,8 +143,7 @@ export const Register = () => {
               background: "transparent",
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.background =
-                "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))";
+              e.currentTarget.style.background = "var(--color-primary)";
               e.currentTarget.style.color = "white";
             }}
             onMouseOut={(e) => {
@@ -165,8 +164,7 @@ export const Register = () => {
               className="w-full py-2 rounded-2xl font-extrabold text-white transition-colors"
               style={{
                 fontFamily: "Poppins",
-                background:
-                  "linear-gradient(to right, var(--color-primary), var(--color-primary-hover))",
+                background: "var(--color-primary)",
               }}
             >
               Masuk

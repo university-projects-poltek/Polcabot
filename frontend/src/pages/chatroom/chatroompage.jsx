@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Header } from "../../components/header";
 import { apiChatBot } from "../../utils/api-client";
+import { useNavigate } from "react-router";
 
 export const ChatRoomPage = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -74,6 +76,10 @@ export const ChatRoomPage = () => {
 
   // Ambil riwayat chat dari backend
   useEffect(() => {
+    if (!userId) {
+      navigate("/");
+    }
+
     const fetchHistory = async () => {
       if (!userId) return;
       try {
