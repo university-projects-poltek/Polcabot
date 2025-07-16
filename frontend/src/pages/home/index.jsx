@@ -131,6 +131,7 @@ export const Home = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <Link
+                id="try-chat"
                 to={"/login"}
                 className="group bg-yellow-400 text-blue-900 px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-yellow-300 transition-all duration-300 hover:scale-105"
               >

@@ -13,8 +13,9 @@ driver.get('http://localhost:5173/')
 time.sleep(2)
 
 # Klik tombol login
-driver.find_element(By.ID, 'login-button').click()
-time.sleep(2)
+tryChat_button = driver.find_element(By.ID, 'try-chat')
+tryChat_button.click()
+time.sleep(3)
 # Daftar test case login
 login_test_cases = [
     {"username": "SaiiFake",        "password": "Saii23"},
@@ -39,6 +40,7 @@ def login(data):
     # Isi input
     driver.find_element(By.ID, 'username').send_keys(data['username'])
     driver.find_element(By.ID, 'password').send_keys(data['password'])
+    time.sleep(2)
     # Klik tombol login
     driver.find_element(By.ID, 'submit-login').click()
     time.sleep(2)

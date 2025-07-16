@@ -22,9 +22,9 @@ time.sleep(3)
 #####################################################################################
 # Login #
 
-# start testing
-login_button = driver.find_element(By.ID, 'login-button')
-login_button.click()
+# Klik tombol login
+tryChat_button = driver.find_element(By.ID, 'try-chat')
+tryChat_button.click()
 time.sleep(3)
 
 username_field_login = driver.find_element(By.ID, 'username')

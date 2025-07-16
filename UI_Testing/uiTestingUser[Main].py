@@ -24,8 +24,8 @@ time.sleep(3)
 # start testing
 
 # klik tombol login
-login_button = driver.find_element(By.ID, 'login-button')
-login_button.click()
+tryChat_button = driver.find_element(By.ID, 'try-chat')
+tryChat_button.click()
 time.sleep(3)
 # Tes akun belum terdaftar
 username_field_login = driver.find_element(By.ID, 'username')
