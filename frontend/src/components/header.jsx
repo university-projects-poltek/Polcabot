@@ -41,8 +41,9 @@ export const Header = () => {
 
           {userId ? (
             <button
+              id="logout-button"
+              className="py-2 px-4 rounded-2xl font-semibold border transition-colors"
               onClick={handleLogout}
-              className="py-2 px-4 rounded-2xl font-semibold transition-colors"
               style={{
                 border: "1px solid var(--color-primary)",
                 backgroundColor: "rgba(59, 130, 246, 0.1)", // biru transparan

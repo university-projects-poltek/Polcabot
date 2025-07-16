@@ -125,8 +125,8 @@ export const ChatRoomPage = () => {
               key={idx}
               className={`w-fit max-w-[75%] px-4 py-3 rounded-xl text-sm leading-relaxed break-words ${
                 msg.sender === "user"
-                  ? "self-end ml-auto"
-                  : "self-start mr-auto"
+                  ? "chat-user self-end ml-auto"
+                  : "chat-bot-response self-start mr-auto"
               }`}
               style={{
                 backgroundColor:
@@ -149,6 +149,7 @@ export const ChatRoomPage = () => {
         <div className="flex items-center max-w-3xl mx-auto">
           <div className="w-4 h-4 rounded-full bg-[var(--color-primary)] mr-3" />
           <input
+            id="chat-input"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}

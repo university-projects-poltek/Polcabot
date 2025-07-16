@@ -1,0 +1,14 @@
+===== ChatBot Interaction Log =====
+
+[2025-07-08 21:32:10] User: jurusan apa saja yang ada di poltek
+[2025-07-08 21:32:10] Bot : Terjadi kesalahan, silakan coba lagi.
+
+[2025-07-08 21:32:13] User: Siapa rektor Polibatam?
+[2025-07-08 21:32:13] Bot : Terjadi kesalahan, silakan coba lagi.
+
+[2025-07-08 21:32:16] User: bagaimana cara mengambil ijazah
+[2025-07-08 21:32:16] Bot : Terjadi kesalahan, silakan coba lagi.
+
+[2025-07-08 21:32:19] User: Apa visi misi politeknik negri batam?
+[2025-07-08 21:32:19] Bot : Terjadi kesalahan, silakan coba lagi.
+

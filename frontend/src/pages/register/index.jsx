@@ -101,22 +101,35 @@ export const Register = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
-            { name: "name", placeholder: "Masukkan nama lengkap" },
-            { name: "email", type: "email", placeholder: "Masukkan email" },
-            { name: "username", placeholder: "Masukkan nama pengguna" },
+            { id: "register-fullname", 
+              name: "name", 
+              placeholder: "Masukkan nama lengkap" 
+            },
+            { id: "register-email", 
+              name: "email", 
+              type: "email", 
+              placeholder: "Masukkan email" 
+            },
+            { id: "register-username", 
+              name: "username", 
+              placeholder: "Masukkan nama pengguna" 
+            },
             {
+              id: "register-password",
               name: "password",
               type: "password",
               placeholder: "Masukkan kata sandi",
             },
             {
+              id: "register-confirm-password",
               name: "confirmPassword",
               type: "password",
               placeholder: "Masukkan konfirmasi sandi",
             },
-          ].map(({ name, type = "text", placeholder }) => (
+          ].map(({id, name, type = "text", placeholder }) => (
             <input
               key={name}
+              id={id}
               type={type}
               name={name}
               value={form[name]}
@@ -134,6 +147,7 @@ export const Register = () => {
           ))}
 
           <button
+            id="submit-register"
             type="submit"
             className="w-full py-2 rounded-2xl font-extrabold border transition-colors"
             style={{
