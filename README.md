@@ -63,43 +63,7 @@ npm run dev
 
 ## 3. AI Service Setup
 
-Masuk ke folder AI.
-
-```bash
-cd ../AI
-```
-
-Buat virtual environment.
-
-```bash
-python -m venv venv
-```
-
-Aktivasi virtual environment.
-
-Windows
-
-```bash
-venv\Scripts\activate
-```
-
-Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependency.
-
-```bash
-pip install -r requirements.txt
-```
-
-Jalankan AI Service.
-
-```bash
-python app.py
-```
+Tertera di Folder AI/readme.md
 
 ---
 
