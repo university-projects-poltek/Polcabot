@@ -112,3 +112,6 @@ AI Service
 ```
 http://localhost:5001
 ```
+
+# Daftar Kontributor
+3312311038 — Saidi Nur Pratama  ·  3312311069 — Ahmad Dzaky Musthofa  ·  3312311095 — Afrizal  ·  3312311099 — Henokh Iglessias Hutasoit
