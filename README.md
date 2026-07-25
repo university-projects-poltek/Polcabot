@@ -1,3 +1,5 @@
+PolCaBot adalah Chatbot yang digunakan untuk melayani pertanyaan civitas akademik mengenai permasalahan akademik menggunakan teknologi AI
+
 # Installation Guide
 
 ## Prerequisites
